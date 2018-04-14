@@ -2,7 +2,7 @@ package net.amarszalek.newsapiservice;
 
 import feign.Feign;
 import feign.FeignException;
-import feign.jackson.JacksonDecoder;
+import feign.gson.GsonDecoder;
 import io.javalin.Javalin;
 import net.amarszalek.newsapiservice.news.NewsApiClient;
 import net.amarszalek.newsapiservice.news.NewsController;
@@ -17,7 +17,7 @@ public class NewsApplication {
 
     private void initialize() {
         NewsApiClient newsApiClient = Feign.builder()
-                .decoder(new JacksonDecoder())
+                .decoder(new GsonDecoder())
                 .target(NewsApiClient.class, "https://newsapi.org/v2/");
 
         NewsService newsService = new NewsService(newsApiClient);

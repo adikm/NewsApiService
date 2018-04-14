@@ -4,21 +4,21 @@ package net.amarszalek.newsapiservice.news.dto.api;
 import lombok.Data;
 
 @Data
-public class ArticleApiResponse {
+public final class ArticleApiResponse {
 
-    private Source source;
-    private String author;
-    private String title;
-    private String description;
-    private String url;
-    private String urlToImage;
-    private String publishedAt;
+    private final Source source;
+    private final String author;
+    private final String title;
+    private final String description;
+    private final String url;
+    private final String urlToImage;
+    private final String publishedAt;
 
     @Data
-    public static class Source {
+    public final static class Source {
 
-        private String id;
-        private String name;
+        private final String id;
+        private final String name;
 
     }
 }

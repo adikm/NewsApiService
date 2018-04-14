@@ -9,10 +9,10 @@ import java.util.List;
  * Root object for response from News API
  */
 @Data
-public class ApiResponse {
+public final class ApiResponse {
 
-    private String status;
-    private Integer totalResults;
-    private List<ArticleApiResponse> articles;
+    private final String status;
+    private final Integer totalResults;
+    private final List<ArticleApiResponse> articles;
 
 }
