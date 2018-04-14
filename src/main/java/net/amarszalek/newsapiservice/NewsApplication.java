@@ -9,6 +9,8 @@ import net.amarszalek.newsapiservice.news.NewsController;
 import net.amarszalek.newsapiservice.news.NewsService;
 import org.eclipse.jetty.http.HttpStatus;
 
+import java.nio.charset.StandardCharsets;
+
 public class NewsApplication {
 
     public static void main(String[] args) {
@@ -23,7 +25,11 @@ public class NewsApplication {
         NewsService newsService = new NewsService(newsApiClient);
         NewsController controller = new NewsController(newsService);
 
-        Javalin app = Javalin.start(7000);
+        Javalin app = Javalin.create()
+                .defaultCharacterEncoding(StandardCharsets.UTF_8.name())
+                .enableStaticFiles("/static")
+                .port(7000).start();
+
         app.get("news/:lang/:category", controller::fetchNews);
 
         app.exception(FeignException.class, (e, ctx) -> {
