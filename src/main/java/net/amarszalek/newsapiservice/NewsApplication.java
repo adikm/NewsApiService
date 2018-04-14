@@ -13,6 +13,8 @@ import java.nio.charset.StandardCharsets;
 
 public class NewsApplication {
 
+    private static final String NEWSAPI_URL = "https://newsapi.org/v2/";
+
     public static void main(String[] args) {
         new NewsApplication().initialize();
     }
@@ -20,7 +22,7 @@ public class NewsApplication {
     private void initialize() {
         NewsApiClient newsApiClient = Feign.builder()
                 .decoder(new GsonDecoder())
-                .target(NewsApiClient.class, "https://newsapi.org/v2/");
+                .target(NewsApiClient.class, NEWSAPI_URL);
 
         NewsService newsService = new NewsService(newsApiClient);
         NewsController controller = new NewsController(newsService);
