@@ -3,7 +3,6 @@ package net.amarszalek.newsapiservice.news;
 import feign.FeignException;
 import net.amarszalek.newsapiservice.news.dto.Article;
 import net.amarszalek.newsapiservice.news.dto.News;
-import net.amarszalek.newsapiservice.news.dto.NewsApiException;
 import net.amarszalek.newsapiservice.news.dto.api.ApiResponse;
 import net.amarszalek.newsapiservice.news.dto.api.ArticleApiResponse;
 import org.eclipse.jetty.http.HttpStatus;

@@ -1,4 +1,4 @@
-package net.amarszalek.newsapiservice.news.dto;
+package net.amarszalek.newsapiservice.news;
 
 public class NewsApiException extends RuntimeException {
 

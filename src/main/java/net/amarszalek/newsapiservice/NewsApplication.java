@@ -4,9 +4,9 @@ import feign.Feign;
 import feign.gson.GsonDecoder;
 import io.javalin.Javalin;
 import net.amarszalek.newsapiservice.news.NewsApiClient;
+import net.amarszalek.newsapiservice.news.NewsApiException;
 import net.amarszalek.newsapiservice.news.NewsController;
 import net.amarszalek.newsapiservice.news.NewsService;
-import net.amarszalek.newsapiservice.news.dto.NewsApiException;
 
 import java.nio.charset.StandardCharsets;
 
