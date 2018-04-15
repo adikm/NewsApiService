@@ -842,8 +842,8 @@ public class NewsApiExample {
     public static void main(String[] args) {
         
         NewsApi apiInstance = new NewsApi();
-        String country = country_example; // String | code of country for which news are to be fetched
-        String category = category_example; // String | category of news
+        String country = country_example; // String | code of country for which news are to be fetched, example: pl
+        String category = category_example; // String | category of news, example: technology
         try {
             News result = apiInstance.getTopNews(country, category);
             System.out.println(result);
@@ -862,8 +862,8 @@ public class NewsApiExample {
 
     public static void main(String[] args) {
         NewsApi apiInstance = new NewsApi();
-        String country = country_example; // String | code of country for which news are to be fetched
-        String category = category_example; // String | category of news
+        String country = country_example; // String | code of country for which news are to be fetched, example: pl
+        String category = category_example; // String | category of news, example: technology
         try {
             News result = apiInstance.getTopNews(country, category);
             System.out.println(result);
@@ -879,8 +879,8 @@ public class NewsApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-News-getTopNews-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *country = country_example; // code of country for which news are to be fetched
-String *category = category_example; // category of news
+                              <pre class="prettyprint"><code class="language-cpp">String *country = country_example; // code of country for which news are to be fetched, example: pl
+String *category = category_example; // category of news, example: technology
 
 NewsApi *apiInstance = [[NewsApi alloc] init];
 
@@ -903,9 +903,9 @@ NewsApi *apiInstance = [[NewsApi alloc] init];
 
 var api = new NewsService.NewsApi()
 
-var country = country_example; // {String} code of country for which news are to be fetched
+var country = country_example; // {String} code of country for which news are to be fetched, example: pl
 
-var category = category_example; // {String} category of news
+var category = category_example; // {String} category of news, example: technology
 
 
 var callback = function(error, data, response) {
@@ -937,8 +937,8 @@ namespace Example
         {
             
             var apiInstance = new NewsApi();
-            var country = country_example;  // String | code of country for which news are to be fetched
-            var category = category_example;  // String | category of news
+            var country = country_example;  // String | code of country for which news are to be fetched, example: pl
+            var category = category_example;  // String | category of news, example: technology
 
             try
             {
@@ -961,8 +961,8 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\NewsApi();
-$country = country_example; // String | code of country for which news are to be fetched
-$category = category_example; // String | category of news
+$country = country_example; // String | code of country for which news are to be fetched, example: pl
+$category = category_example; // String | category of news, example: technology
 
 try {
     $result = $api_instance->getTopNews($country, $category);
@@ -979,8 +979,8 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::NewsApi;
 
 my $api_instance = WWW::SwaggerClient::NewsApi->new();
-my $country = country_example; # String | code of country for which news are to be fetched
-my $category = category_example; # String | category of news
+my $country = country_example; # String | code of country for which news are to be fetched, example: pl
+my $category = category_example; # String | category of news, example: technology
 
 eval { 
     my $result = $api_instance->getTopNews(country => $country, category => $category);
@@ -1000,8 +1000,8 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.NewsApi()
-country = country_example # String | code of country for which news are to be fetched
-category = category_example # String | category of news
+country = country_example # String | code of country for which news are to be fetched, example: pl
+category = category_example # String | category of news, example: technology
 
 try: 
     # Fetch news by country and category
@@ -1032,7 +1032,7 @@ except ApiException as e:
                 </span>
 
                     <div class="inner description">
-                        code of country for which news are to be fetched
+                        code of country for which news are to be fetched, example: pl
                     </div>
             </div>
                 <div class="inner required">
@@ -1055,7 +1055,7 @@ except ApiException as e:
                 </span>
 
                     <div class="inner description">
-                        category of news
+                        category of news, example: technology
                     </div>
             </div>
                 <div class="inner required">
