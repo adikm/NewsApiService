@@ -15,7 +15,7 @@ in the project's working directory
 You can run this project by executing packaged jar with dependencies.
 Change directory to /target/ and run in command line:
 ```shell
-java -jar NewsApiService-1.0-SNAPSHOT-jar-with-dependencies.jar 
+java -jar NewsApiService-1.0-SNAPSHOT-jar-with-dependencies.jar API_KEY
 ```
 
 or using Docker:
