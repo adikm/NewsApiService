@@ -1,9 +1,12 @@
 package net.amarszalek.newsapiservice.news;
 
+import feign.FeignException;
 import net.amarszalek.newsapiservice.news.dto.Article;
 import net.amarszalek.newsapiservice.news.dto.News;
+import net.amarszalek.newsapiservice.news.dto.NewsApiException;
 import net.amarszalek.newsapiservice.news.dto.api.ApiResponse;
 import net.amarszalek.newsapiservice.news.dto.api.ArticleApiResponse;
+import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +23,18 @@ public class NewsService {
     }
 
     public News getTopNews(String lang, String category) {
-        ApiResponse apiResponse = newsApiClient.fetchTop(lang, category, apiKey);
+        ApiResponse apiResponse;
+
+        try {
+            apiResponse = newsApiClient.fetchTop(lang, category, apiKey);
+        } catch (FeignException e) {
+            LOGGER.error("Error during communication with NewsAPI: " + e.getMessage());
+            if (e.getMessage().contains(String.valueOf(HttpStatus.UNAUTHORIZED_401))) {
+                throw new NewsApiException(HttpStatus.UNAUTHORIZED_401, "Incorrect API key: " + apiKey);
+            } else {
+                throw new NewsApiException(HttpStatus.INTERNAL_SERVER_ERROR_500, "Communication problem with external service");
+            }
+        }
         LOGGER.info("Data successfully obtained from NewsAPI. Articles found: {}", apiResponse.getTotalResults());
 
         return prepareNews(apiResponse, lang, category);

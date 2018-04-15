@@ -1,13 +1,12 @@
 package net.amarszalek.newsapiservice;
 
 import feign.Feign;
-import feign.FeignException;
 import feign.gson.GsonDecoder;
 import io.javalin.Javalin;
 import net.amarszalek.newsapiservice.news.NewsApiClient;
 import net.amarszalek.newsapiservice.news.NewsController;
 import net.amarszalek.newsapiservice.news.NewsService;
-import org.eclipse.jetty.http.HttpStatus;
+import net.amarszalek.newsapiservice.news.dto.NewsApiException;
 
 import java.nio.charset.StandardCharsets;
 
@@ -38,14 +37,9 @@ public class NewsApplication {
 
         app.get("news/:lang/:category", controller::fetchNews);
 
-        app.exception(FeignException.class, (e, ctx) -> {
-            if (e.getMessage().contains(String.valueOf(HttpStatus.UNAUTHORIZED_401))) {
-                ctx.status(HttpStatus.UNAUTHORIZED_401);
-                ctx.result("Incorrect API key");
-            } else {
-                ctx.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-                ctx.result("Communication problem with external service");
-            }
+        app.exception(NewsApiException.class, (e, ctx) -> {
+            ctx.status(e.getStatus());
+            ctx.result(e.getMessage());
         });
     }
 }

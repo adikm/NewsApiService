@@ -1,14 +1,19 @@
 package net.amarszalek.newsapiservice.news;
 
+import feign.FeignException;
+import feign.Response;
 import net.amarszalek.newsapiservice.news.dto.Article;
 import net.amarszalek.newsapiservice.news.dto.News;
+import net.amarszalek.newsapiservice.news.dto.NewsApiException;
 import net.amarszalek.newsapiservice.news.dto.api.ApiResponse;
 import net.amarszalek.newsapiservice.news.dto.api.ArticleApiResponse;
+import org.eclipse.jetty.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +31,12 @@ class NewsServiceTest {
     private static final String ARTICLE_URL = "http://article.xyz";
     private static final String IMAGE_URL = "http://urlToImage.jpg";
     private static final String PUBLISHED_AT = "DATA";
+
     private static final String PL = "pl";
     private static final String CATEGORY = "technology";
+
     private static final String API_KEY = "key";
+    private static final String WRONG_API_KEY = "wrongApiKey";
 
     private NewsService newsService = new NewsService(mockNewsClientApi(), API_KEY);
 
@@ -70,7 +78,33 @@ class NewsServiceTest {
         assertNotNull(articles);
         assertTrue(articles.isEmpty());
     }
-    
+
+    @DisplayName("Get top news with incorrect API key should throw exception")
+    @Test
+    public void getTopNews_ApiCallWithWrongApiKey_ShouldThrowException() {
+        NewsService wrongApiKeyNewsService = newsService = new NewsService(mockNewsClientApi(), WRONG_API_KEY);
+
+        NewsApiException newsApiException = assertThrows(NewsApiException.class, () -> {
+            wrongApiKeyNewsService.getTopNews(PL, CATEGORY);
+        });
+
+        assertEquals(HttpStatus.UNAUTHORIZED_401, newsApiException.getStatus());
+        assertTrue(newsApiException.getMessage().contains("Incorrect API key"));
+    }
+
+    @DisplayName("Get top news with a missing API parameter should throw exception")
+    @Test
+    public void getTopNews_ApiCallWithMissingParameter_ShouldThrowException() {
+        NewsService wrongApiKeyNewsService = newsService = new NewsService(mockNewsClientApi(), WRONG_API_KEY);
+
+        NewsApiException newsApiException = assertThrows(NewsApiException.class, () -> {
+            wrongApiKeyNewsService.getTopNews(PL, "");
+        });
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR_500, newsApiException.getStatus());
+        assertTrue(newsApiException.getMessage().contains("Communication problem with external service"));
+    }
+
     private NewsApiClient mockNewsClientApi() {
         ArticleApiResponse.Source source = new ArticleApiResponse.Source(SOURCE_ID, SOURCE_NAME);
         ArticleApiResponse articleApiResponse = new ArticleApiResponse(source, AUTHOR, TITLE,
@@ -83,6 +117,12 @@ class NewsServiceTest {
         NewsApiClient clientMock = Mockito.mock(NewsApiClient.class);
         when(clientMock.fetchTop(anyString(), anyString(), anyString())).thenReturn(nothingFoundApiResponse);
         when(clientMock.fetchTop(eq(PL), eq(CATEGORY), anyString())).thenReturn(successfulApiResponse);
+        FeignException feign401Exception = FeignException.errorStatus(null, Response.builder().headers(new HashMap<>()).status(401).build());
+        when(clientMock.fetchTop(eq(PL), eq(CATEGORY), eq(WRONG_API_KEY)))
+                .thenThrow(feign401Exception);
+        FeignException feign400Exception = FeignException.errorStatus(null, Response.builder().headers(new HashMap<>()).status(400).build());
+        when(clientMock.fetchTop(eq(PL), eq(""), eq(WRONG_API_KEY)))
+                .thenThrow(feign400Exception);
 
         return clientMock;
     }
