@@ -28,8 +28,9 @@ class NewsServiceTest {
     private static final String PUBLISHED_AT = "DATA";
     private static final String PL = "pl";
     private static final String CATEGORY = "technology";
+    private static final String API_KEY = "key";
 
-    private NewsService newsService = new NewsService(mockNewsClientApi());
+    private NewsService newsService = new NewsService(mockNewsClientApi(), API_KEY);
 
     @DisplayName("Get top news with correct parameters will return News with Articles")
     @Test
