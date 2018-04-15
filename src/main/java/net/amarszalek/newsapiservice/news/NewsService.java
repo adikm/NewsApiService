@@ -27,12 +27,11 @@ public class NewsService {
         try {
             apiResponse = newsApiClient.fetchTop(lang, category, apiKey);
         } catch (FeignException e) {
-            LOGGER.error("Error during communication with NewsAPI: " + e.getMessage());
+            LOGGER.error("Error during communication with NewsAPI: {}", e.getMessage());
             if (e.getMessage().contains(String.valueOf(HttpStatus.UNAUTHORIZED_401))) {
                 throw new NewsApiException(HttpStatus.UNAUTHORIZED_401, "Incorrect API key: " + apiKey);
-            } else {
-                throw new NewsApiException(HttpStatus.INTERNAL_SERVER_ERROR_500, "Communication problem with external service");
             }
+            throw new NewsApiException(HttpStatus.INTERNAL_SERVER_ERROR_500, "Communication problem with external service");
         }
         LOGGER.info("Data successfully obtained from NewsAPI. Articles found: {}", apiResponse.getTotalResults());
 

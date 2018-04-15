@@ -15,7 +15,7 @@ public final class ArticleApiResponse {
     private final String publishedAt;
 
     @Data
-    public final static class Source {
+    public static final class Source {
 
         private final String id;
         private final String name;
